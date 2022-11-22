@@ -13,8 +13,6 @@ from selenium.webdriver.chrome.options import Options
 
 @dp.message(Command(commands=["next"]))
 async def fixture(message: types.Message, state: FSMContext):
-    await message.reply("ok")
-    return
     data = await state.get_data()
     if data is None or "team_name" not in data:
         await message.reply("You need to set a team first")
@@ -23,6 +21,9 @@ async def fixture(message: types.Message, state: FSMContext):
     chrome_options = Options()
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
+    chrome_options.page_load_strategy = 'normal'
 
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(

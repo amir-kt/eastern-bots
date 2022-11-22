@@ -54,8 +54,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   && rm -rf /var/lib/apt/lists/*
 
 
-#USER root
-
 #============================================
 # Google Chrome
 #============================================
@@ -75,14 +73,6 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
   && rm /etc/apt/sources.list.d/google-chrome.list \
   && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-#=================================
-# Chrome Launch Script Wrapper
-#=================================
-COPY wrap_chrome_binary /opt/bin/wrap_chrome_binary
-RUN chmod +x /opt/bin/wrap_chrome_binary
-RUN /opt/bin/wrap_chrome_binary
-
-#USER 1200
 
 #============================================
 # Chrome webdriver
