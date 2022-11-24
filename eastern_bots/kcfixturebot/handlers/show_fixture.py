@@ -3,7 +3,7 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 
 from .utils import messages, state_manager
-from .utils.scraper import scrape_game_info
+from .utils.scraper import scrape_game_info, scrape_game_screenshot
 
 from ..bot import dp
 
@@ -29,6 +29,25 @@ async def fixture(message: types.Message, state: FSMContext):
                 await state_manager.get_game_time(state)
             )
         )
+
+    except:
+        await message.reply("Something went wrong! This could be because you've entered an invalid team name.")
+
+
+@dp.message(Command(commands=["pic"]))
+async def fixture(message: types.Message, state: FSMContext):
+    try:
+        team_name = await state_manager.get_team_name(state)
+        if team_name is None:
+            await message.reply("You need to set a team first :(")
+            return
+
+        fixture_pic = await scrape_game_screenshot(team_name)
+        if fixture_pic:
+            # TODO: take the file_id and save it in database
+            await message.reply_photo(fixture_pic)
+        else:
+            await message.reply('Couldn\'t retrieve picture')
 
     except:
         await message.reply("Something went wrong! This could be because you've entered an invalid team name.")
