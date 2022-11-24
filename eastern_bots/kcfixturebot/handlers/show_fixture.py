@@ -3,7 +3,7 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 
 from .utils import messages, state_manager
-from .utils.scraper import scrape_game_time
+from .utils.scraper import scrape_game_info
 
 from ..bot import dp
 
@@ -11,22 +11,24 @@ from ..bot import dp
 @dp.message(Command(commands=["next"]))
 async def fixture(message: types.Message, state: FSMContext):
     try:
-        data = await state.get_data()
-        if data is None or "team_name" not in data:
-            await message.reply("You need to set a team first")
+        team_name = await state_manager.get_team_name(state)
+        if team_name is None:
+            await message.reply("You need to set a team first :(")
             return
 
-        game_time = await scrape_game_time(data["team_name"])
-        if game_time is not None:
-            await state_manager.set_game_time(game_time, state)
+        # Only scrape the game data if necessary in order to save time
+        if await state_manager.is_game_info_expired(state):
+            game_time = await scrape_game_info(team_name)
+            if game_time:
+                await state_manager.set_game_info(game_time, state)
 
         await message.reply(
             messages.next_message(
-                await state_manager.get_team_name(state), 
-                await state_manager.get_game_date(state), 
+                team_name, 
+                await state_manager.get_game_date(state),
                 await state_manager.get_game_time(state)
             )
         )
 
     except:
-        await message.reply("Something went wrong!")
+        await message.reply("Something went wrong! This could be because you've entered an invalid team name.")

@@ -1,12 +1,10 @@
-import asyncio
-
 from aiogram import types
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 
 from .utils import messages, state_manager
-from .utils.scraper import scrape_game_time
+from .utils.scraper import scrape_game_info
 
 from ..bot import dp
 
@@ -28,5 +26,5 @@ async def handle_team_name(message: types.Message, state: FSMContext):
     await state.set_data({"team_name": message.text})
     await message.reply(messages.team_selected(message.text))
     
-    asyncio.ensure_future(state_manager.set_game_time(await scrape_game_time(message.text), state))
-
+    if await state_manager.set_game_info(await scrape_game_info(message.text), state):
+        await state_manager.set_last_scrape_time(state)
