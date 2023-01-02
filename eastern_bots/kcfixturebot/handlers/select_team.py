@@ -17,14 +17,14 @@ class States(StatesGroup):
 @dp.message(Command(commands=["team"]))
 async def team(message: types.Message, state: FSMContext):
     await state.set_state(States.selecting_team)
-    await message.reply(messages.set_team_message)
-
+    await message.answer(messages.set_team_message)
+    
 
 @dp.message(States.selecting_team)
 async def handle_team_name(message: types.Message, state: FSMContext):
     await state.set_state(States.team_selected)
     await state.set_data({"team_name": message.text})
-    await message.reply(messages.team_selected(message.text))
+    await message.answer(messages.team_selected(message.text))
     
     if await state_manager.set_game_info(await scrape_game_info(message.text), state):
         await state_manager.set_last_scrape_time(state)
