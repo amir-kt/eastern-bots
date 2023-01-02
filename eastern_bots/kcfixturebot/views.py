@@ -2,6 +2,7 @@ import asyncio
 import json
 
 from asgiref.sync import async_to_sync
+from aiogram.types import BotCommand
 from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -27,6 +28,26 @@ async def bot_webhook(request, token):
     # Or wait for execution
     await dp.feed_raw_update(bot, update)
 
+    return HttpResponse("OK.")
+
+
+@async_to_sync
+async def setup_bot(request, token):
+    if not settings.DEBUG:
+        return HttpResponse("Not allowed.")
+
+    bot = await get_bot_instance(token)
+    if not bot:
+        return HttpResponse("Bot not registered.")
+
+    await bot.set_my_commands(
+        [
+            BotCommand(command="start", description="Start the bot"),
+            BotCommand(command="team", description="Choose your team name"),
+            BotCommand(command="next", description="Displays the next game's details"),
+            BotCommand(command="pic", description="Displays the next game's details as a picture"),
+        ]
+    )
     return HttpResponse("OK.")
 
 

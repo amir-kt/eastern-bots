@@ -13,7 +13,7 @@ async def fixture(message: types.Message, state: FSMContext):
     try:
         team_name = await state_manager.get_team_name(state)
         if team_name is None:
-            await message.reply("You need to set a team first :(")
+            await message.answer("You need to set a team first :(")
             return
 
         # Only scrape the game data if necessary in order to save time
@@ -22,7 +22,7 @@ async def fixture(message: types.Message, state: FSMContext):
             if game_time:
                 await state_manager.set_game_info(game_time, state)
 
-        await message.reply(
+        await message.answer(
             messages.next_message(
                 team_name, 
                 await state_manager.get_game_date(state),
@@ -31,7 +31,7 @@ async def fixture(message: types.Message, state: FSMContext):
         )
 
     except:
-        await message.reply("Something went wrong! This could be because you've entered an invalid team name.")
+        await message.answer("Something went wrong! This could be because you've entered an invalid team name.")
 
 
 @dp.message(Command(commands=["pic"]))

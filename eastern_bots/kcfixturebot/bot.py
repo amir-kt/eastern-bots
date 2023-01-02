@@ -22,7 +22,8 @@ def load_handlers():
     from .handlers import (  # noqa: F401
         basic_commands,
         show_fixture,
-        select_team
+        select_team,
+        unknown_message
     )
 
 
