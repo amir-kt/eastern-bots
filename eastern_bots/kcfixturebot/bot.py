@@ -8,7 +8,7 @@ bot_instances = {}
 allowed_bot_usernames = [x.lower() for x in ["kcFixtureBot"]]
 
 
-async def get_bot_instance(token):
+async def get_bot_instance(token) -> Bot:
     if token not in bot_instances.keys():
         bot = Bot(token)
         bot_profile = await bot.get_me()
@@ -21,9 +21,9 @@ async def get_bot_instance(token):
 def load_handlers():
     from .handlers import (  # noqa: F401
         basic_commands,
-        show_fixture,
         select_team,
-        unknown_message
+        show_fixture,
+        unknown_message,
     )
 
 

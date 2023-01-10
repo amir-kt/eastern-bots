@@ -1,5 +1,5 @@
 import datetime
-from typing import Tuple
+
 from aiogram.fsm.context import FSMContext
 
 
@@ -11,15 +11,15 @@ async def set_last_scrape_time(state: FSMContext):
         await state.set_data(data)
 
 
-async def set_game_info(game_time: Tuple[str, str, str], state: FSMContext):
+async def set_game_info(game_time: tuple[str, str, str], state: FSMContext):
     if game_time is not None and state is not None:
         data = await state.get_data()
         time, day, date = game_time
-        
+
         data["game_date"] = date
         data["game_time"] = time
         data["game_day"] = day
-        
+
         await set_last_scrape_time(state)
 
         await state.set_data(data)
@@ -52,6 +52,8 @@ async def get_last_scrape_time(state: FSMContext):
 async def is_game_info_expired(state: FSMContext):
     last_scrape_time = await get_last_scrape_time(state)
     if last_scrape_time:
-        return datetime.datetime.utcnow() - last_scrape_time > datetime.timedelta(days=1)
+        return datetime.datetime.utcnow() - last_scrape_time > datetime.timedelta(
+            days=1
+        )
 
     return False

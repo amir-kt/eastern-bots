@@ -24,3 +24,11 @@ drf-spectacular==0.24.2  # https://github.com/tfranzel/drf-spectacular
 # AioGram
 # -------------------------------------------------------------------------------
 aiogram==3.0.0b5
+
+# Web Scraping
+# ------------------------------------------------------------------------------
+selenium==4.6.0 # https://github.com/SeleniumHQ/selenium
+
+# Scheduling
+# ------------------------------------------------------------------------------
+schedule==1.1.0

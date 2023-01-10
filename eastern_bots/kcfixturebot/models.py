@@ -1,3 +1,16 @@
 from django.db import models
 
-# Create your models here.
+
+class Schedule(models.Model):
+    class Days(models.TextChoices):
+        mon = "MONDAY"
+        tue = "TUESDAY"
+        wed = "WEDNESDAY"
+        thu = "THURSDAY"
+        fri = "FRIDAY"
+        sat = "SATURDAY"
+        sun = "SUNDAY"
+
+    user_id = models.IntegerField()
+    channel_username = models.CharField()
+    fixture_schedule = models.CharField(choices=Days.choices)

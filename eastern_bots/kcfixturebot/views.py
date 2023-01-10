@@ -1,8 +1,9 @@
 import asyncio
 import json
 
-from asgiref.sync import async_to_sync
+import utils
 from aiogram.types import BotCommand
+from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -22,10 +23,6 @@ async def bot_webhook(request, token):
     if not bot:
         return HttpResponse("Bot not registered.")
 
-    # Run in the background
-    # asyncio.create_task(dp.feed_raw_update(bot, update))
-
-    # Or wait for execution
     await dp.feed_raw_update(bot, update)
 
     return HttpResponse("OK.")
@@ -45,7 +42,10 @@ async def setup_bot(request, token):
             BotCommand(command="start", description="Start the bot"),
             BotCommand(command="team", description="Choose your team name"),
             BotCommand(command="next", description="Displays the next game's details"),
-            BotCommand(command="pic", description="Displays the next game's details as a picture"),
+            BotCommand(
+                command="pic",
+                description="Displays the next game's details as a picture",
+            ),
         ]
     )
     return HttpResponse("OK.")
@@ -62,3 +62,10 @@ async def poll_bot_updates(request, token):
 
     asyncio.create_task(dp.start_polling(bot))
     return HttpResponse("OK.")
+
+
+@async_to_sync
+async def send_fixtures(request, token):
+    bot = await get_bot_instance(token)
+    res = await utils.send_fixtures(bot)
+    return HttpResponse(res)
