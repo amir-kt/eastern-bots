@@ -12,5 +12,5 @@ class Schedule(models.Model):
         sun = "SUNDAY"
 
     user_id = models.IntegerField()
-    channel_username = models.CharField()
-    fixture_schedule = models.CharField(choices=Days.choices)
+    channel_username = models.CharField(max_length=30)
+    fixture_schedule = models.CharField(choices=Days.choices, max_length=15)
