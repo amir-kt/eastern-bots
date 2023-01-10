@@ -1,7 +1,6 @@
 import asyncio
 import json
 
-from aiogram.types import BotCommand
 from asgiref.sync import async_to_sync, sync_to_async
 from django.conf import settings
 from django.http import HttpResponse
@@ -28,7 +27,14 @@ async def bot_webhook(request, token):
     # asyncio.create_task(dp.feed_raw_update(bot, update))
 
     # Or wait for execution
-    await dp.feed_raw_update(bot, update)
+    try:
+        await dp.feed_raw_update(bot, update)
+    except Exception as e:
+        # Catching "Exception" is the worst. But there is no option. If the code fails, the webhook shouldn't fail.
+        # If the webhook fails Telegram will stop sending messages altogether. Best solution is to catch all possible
+        # exceptions in your handlers and log any that reach here.
+        if settings.DEBUG:
+            raise e
 
     return HttpResponse("OK.")
 
@@ -43,28 +49,6 @@ async def poll_bot_updates(request, token):
         return HttpResponse("Bot not registered.")
 
     asyncio.create_task(dp.start_polling(bot))
-    return HttpResponse("OK.")
-
-
-@async_to_sync
-async def setup_bot(request, token):
-    if not settings.DEBUG:
-        return HttpResponse("Not allowed.")
-
-    bot = await get_bot_instance(token)
-    if not bot:
-        return HttpResponse("Bot not registered.")
-
-    await bot.set_my_commands(
-        [
-            BotCommand(command="start", description="Start the bot"),
-            BotCommand(
-                command="help", description="What is a webhook and how to use it?"
-            ),
-            BotCommand(command="new", description="Create a new webhook for this chat"),
-            BotCommand(command="list", description="List webhooks setup in this chat"),
-        ]
-    )
     return HttpResponse("OK.")
 
 
