@@ -1,17 +1,17 @@
 pytz==2022.6  # https://github.com/stub42/pytz
-python-slugify==6.1.2  # https://github.com/un33k/python-slugify
-Pillow==9.3.0  # https://github.com/python-pillow/Pillow
+python-slugify==7.0.0  # https://github.com/un33k/python-slugify
+Pillow==9.4.0  # https://github.com/python-pillow/Pillow
 argon2-cffi==21.3.0  # https://github.com/hynek/argon2_cffi
-redis==4.3.4  # https://github.com/redis/redis-py
+redis==4.4.0  # https://github.com/redis/redis-py
 hiredis==2.0.0  # https://github.com/redis/hiredis-py
-uvicorn[standard]==0.19.0  # https://github.com/encode/uvicorn
+uvicorn[standard]==0.20.0  # https://github.com/encode/uvicorn
 
 # Django
 # ------------------------------------------------------------------------------
-django==4.1.3  # https://www.djangoproject.com/
+django==4.1.5  # https://www.djangoproject.com/
 django-environ==0.9.0  # https://github.com/joke2k/django-environ
 django-model-utils==4.3.1  # https://github.com/jazzband/django-model-utils
-django-allauth==0.51.0  # https://github.com/pennersr/django-allauth
+django-allauth==0.52.0  # https://github.com/pennersr/django-allauth
 django-crispy-forms==1.14.0  # https://github.com/django-crispy-forms/django-crispy-forms
 crispy-bootstrap5==0.7  # https://github.com/django-crispy-forms/crispy-bootstrap5
 django-redis==5.2.0  # https://github.com/jazzband/django-redis
@@ -19,11 +19,11 @@ django-redis==5.2.0  # https://github.com/jazzband/django-redis
 djangorestframework==3.14.0  # https://github.com/encode/django-rest-framework
 django-cors-headers==3.13.0 # https://github.com/adamchainz/django-cors-headers
 # DRF-spectacular for api documentation
-drf-spectacular==0.24.2  # https://github.com/tfranzel/drf-spectacular
+drf-spectacular==0.25.1  # https://github.com/tfranzel/drf-spectacular
 
 # AioGram
 # -------------------------------------------------------------------------------
-aiogram==3.0.0b5
+aiogram==3.0.0b6
 
 # Web Scraping
 # ------------------------------------------------------------------------------

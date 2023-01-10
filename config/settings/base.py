@@ -12,8 +12,13 @@ env = environ.Env()
 
 READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
 if READ_DOT_ENV_FILE:
+    if env.bool("READTHEDOCS", default=False):
+        env_file = ".envs/.local/.django"
+    else:
+        env_file = ".env"
+    print(" ====== ENV FILE IS", env_file, "=========")
     # OS environment variables take precedence over variables from .env
-    env.read_env(str(ROOT_DIR / ".env"))
+    env.read_env(str(ROOT_DIR / env_file))
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -79,8 +84,9 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "eastern_bots.users",
-    # Your stuff: custom apps go here
+    "eastern_bots.utils",
     "eastern_bots.incomingmessagesbot",
+    "eastern_bots.opanonbot",
     "eastern_bots.kcfixturebot",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -137,7 +143,6 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
