@@ -46,6 +46,10 @@ async def setup_bot(request, token):
                 command="pic",
                 description="Displays the next game's details as a picture",
             ),
+            BotCommand(
+                command="reminder",
+                description="schedule a reminder to receive your game time every week",
+            ),
         ]
     )
     return HttpResponse("OK.")

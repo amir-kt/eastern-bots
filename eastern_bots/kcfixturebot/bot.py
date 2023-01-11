@@ -21,6 +21,7 @@ async def get_bot_instance(token) -> Bot:
 def load_handlers():
     from .handlers import (  # noqa: F401
         basic_commands,
+        reminder,
         select_team,
         show_fixture,
         unknown_message,
