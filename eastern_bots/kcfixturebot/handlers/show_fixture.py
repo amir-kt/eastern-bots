@@ -17,9 +17,9 @@ async def fixture_text(message: types.Message, state: FSMContext):
 
         # Only scrape the game data if necessary in order to save time
         if await state_manager.is_game_info_expired(state):
-            game_time = await scrape_game_info(team_name)
-            if game_time:
-                await state_manager.set_game_info(game_time, state)
+            game_info = await scrape_game_info(team_name)
+            if game_info:
+                await state_manager.set_game_info(game_info, state)
 
         await message.answer(
             strings.next_message(

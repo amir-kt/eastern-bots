@@ -8,6 +8,7 @@ from asgiref.sync import sync_to_async
 from ..bot import dp
 from ..models import Schedule
 from .utils import state_manager, strings
+from .utils.scraper import scrape_game_info
 
 
 class States(StatesGroup):
@@ -17,9 +18,6 @@ class States(StatesGroup):
 
 @dp.message(Command(commands=["reminder"]))
 async def schedule_reminder(message: types.Message, state: FSMContext):
-    # async for entry in Schedule.objects.all():
-    #     print(entry.chat_id)
-
     team_name = await state_manager.get_team_name(state)
     if not team_name:
         await message.answer(strings.no_team_selected)
@@ -27,11 +25,19 @@ async def schedule_reminder(message: types.Message, state: FSMContext):
 
     obj, _ = await Schedule.objects.aget_or_create(chat_id=message.chat.id)
     obj.team_name = team_name
+
+    game_info = await scrape_game_info(team_name)
+    if game_info:
+        time, day, date = game_info
+        obj.game_day = day
+        obj.game_time = time
+        obj.game_date = date
+
     await sync_to_async(obj.save)()
 
     keyboard_builder = InlineKeyboardBuilder()
-    for day in Schedule.Days:
-        keyboard_builder.button(text=day, callback_data=day)
+    for day_choice in Schedule.Days:
+        keyboard_builder.button(text=day_choice, callback_data=day_choice)
     keyboard_builder.adjust(2)
 
     await message.answer(

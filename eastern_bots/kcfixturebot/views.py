@@ -1,7 +1,6 @@
 import asyncio
 import json
 
-import utils
 from aiogram.types import BotCommand
 from asgiref.sync import async_to_sync
 from django.conf import settings
@@ -9,6 +8,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from .bot import dp, get_bot_instance
+from .utils import send_reminders
 
 
 def heartbeat(request):
@@ -71,5 +71,5 @@ async def poll_bot_updates(request, token):
 @async_to_sync
 async def send_fixtures(request, token):
     bot = await get_bot_instance(token)
-    res = await utils.send_fixtures(bot)
+    res = await send_reminders(bot)
     return HttpResponse(res)

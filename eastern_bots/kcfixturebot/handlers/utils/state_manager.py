@@ -11,10 +11,10 @@ async def set_last_scrape_time(state: FSMContext):
         await state.set_data(data)
 
 
-async def set_game_info(game_time: tuple[str, str, str], state: FSMContext):
-    if game_time is not None and state is not None:
+async def set_game_info(game_info: tuple[str, str, str], state: FSMContext):
+    if game_info is not None and state is not None:
         data = await state.get_data()
-        time, day, date = game_time
+        time, day, date = game_info
 
         data["game_date"] = date
         data["game_time"] = time
