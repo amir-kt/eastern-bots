@@ -5,7 +5,7 @@ volumes:
   eastern_bots_local_postgres_data_backups: {}
 
 services:
-  django:
+  django: &django
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
@@ -37,6 +37,34 @@ services:
 
   redis:
     image: redis:6
+
+  celeryworker:
+    <<: *django
+    image: eastern_bots_local_celeryworker
+    container_name: eastern_bots_local_celeryworker
+    depends_on:
+      - redis
+      - postgres
+    ports: []
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *django
+    image: eastern_bots_local_celerybeat
+    container_name: eastern_bots_local_celerybeat
+    depends_on:
+      - redis
+      - postgres
+    ports: []
+    command: /start-celerybeat
+
+  flower:
+    <<: *django
+    image: eastern_bots_local_flower
+    container_name: eastern_bots_local_flower
+    ports:
+      - "5555:5555"
+    command: /start-flower
 
   docs:
     image: eastern_bots_local_docs

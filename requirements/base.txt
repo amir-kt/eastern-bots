@@ -29,6 +29,8 @@ aiogram==3.0.0b6
 # ------------------------------------------------------------------------------
 selenium==4.6.0 # https://github.com/SeleniumHQ/selenium
 
-# Scheduling
+# Celery
 # ------------------------------------------------------------------------------
-schedule==1.1.0
+celery==5.2.7  # pyup: < 6.0  # https://github.com/celery/celery
+django-celery-beat==2.4.0  # https://github.com/celery/django-celery-beat
+flower==1.2.0  # https://github.com/mher/flower

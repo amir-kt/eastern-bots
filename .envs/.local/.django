@@ -13,3 +13,10 @@ REDIS_URL=redis://redis:6379/0
 # ------------------------------------------------------------------------------
 TEST_BOT_TOKEN=521093911:AAFgPAL-VVolqaKCHbONwJl3Rvu82_tAr04a
 INCOMINGMESSAGESBOT_TOKEN=521093911:AAFgPAL-VVolqaKCHbONwJl3Rvu82_tAr04a
+
+# Celery
+# ------------------------------------------------------------------------------
+
+# Flower
+CELERY_FLOWER_USER=TVuHNzwzCMAJOBfcVWsoEltUppzdzvaM
+CELERY_FLOWER_PASSWORD=0OomoXL2lBlQLXGlEcaRPLOaKn8o9oiTitlfno7LdCRI8P0AZOuNXTfTQKQjsw0e

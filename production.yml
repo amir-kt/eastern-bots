@@ -6,7 +6,7 @@ volumes:
   production_traefik: {}
 
 services:
-  django:
+  django: &django
     build:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
@@ -46,6 +46,21 @@ services:
 
   redis:
     image: redis:6
+
+  celeryworker:
+    <<: *django
+    image: eastern_bots_production_celeryworker
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *django
+    image: eastern_bots_production_celerybeat
+    command: /start-celerybeat
+
+  flower:
+    <<: *django
+    image: eastern_bots_production_flower
+    command: /start-flower
 
   awscli:
     build:

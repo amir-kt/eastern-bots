@@ -16,8 +16,8 @@ restart:
 
 .PHONY: rebuild
 rebuild:
-	@docker-compose -f local.yml stop django
-	@docker-compose -f local.yml up --build -d django
+	@docker-compose -f local.yml stop django celerybeat celeryworker
+	@docker-compose -f local.yml up --build -d django celerybeat celeryworker
 
 .PHONY: manage
 manage:
